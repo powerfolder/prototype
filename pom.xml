@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>io.space-cloud-unit</groupId>
+	<artifactId>prototype</artifactId>
+	<version>0.1-SNAPSHOT</version>
+
+	<properties>
+		<!-- build -->
+		<java.version>1.8</java.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.plugin.version>3.5.1</maven.compiler.plugin.version>
+		<!-- runtime -->
+		<mirror.version>1.5.1</mirror.version>
+		<apache.commons.lang.version>3.3.2</apache.commons.lang.version>
+		<apache.commons.io.version>2.5</apache.commons.io.version>
+		<apache.commons.dbcp.version>1.2.2</apache.commons.dbcp.version>
+		<!-- reporting -->
+		<jacoco.plugin.version>0.7.7.201606060606</jacoco.plugin.version>
+		<site.plugin.version>3.5.1</site.plugin.version>
+		<projectinfo.plugin.version>2.9</projectinfo.plugin.version>
+		<dependency.plugin.version>2.10</dependency.plugin.version>
+		<jdepend.plugin.version>2.0</jdepend.plugin.version>
+		<jxr.plugin.version>2.5</jxr.plugin.version>
+		<pmd.plugin.version>3.6</pmd.plugin.version>
+		<surefire.report.plugin.version>2.19.1</surefire.report.plugin.version>
+		<findbugs.plugin.version>3.0.3</findbugs.plugin.version>
+		<taglist.plugin.version>2.4</taglist.plugin.version>
+	</properties>
+
+	<scm>
+		<developerConnection>scm:git:https://github.com/spacecloudunit/prototype.git</developerConnection>
+	</scm>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.web3j</groupId>
+			<artifactId>core</artifactId>
+			<version>3.5.0</version>
+		</dependency>
+		<!-- A ethereum VM for testing -->
+		<!-- 
+		<dependency>
+			<groupId>org.ethereum</groupId>
+			<artifactId>ethereumj-core</artifactId>
+			<version>1.8.2-RELEASE</version>
+		</dependency>
+		 -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>${apache.commons.lang.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>${apache.commons.io.version}</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.0</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.web3j</groupId>
+				<artifactId>web3j-maven-plugin</artifactId>
+				<version>0.3.5</version>
+				<executions>
+					<execution>
+						<id>WEB3j Source Generator</id>
+						<phase>process-resources</phase>
+						<configuration>
+							<packageName>com.scu.contract.generated</packageName>
+							<sourceDestination>target/generated</sourceDestination>
+							<nativeJavaType>true</nativeJavaType>
+							<outputFormat>java</outputFormat>
+							<soliditySourceFiles>
+								<directory>src/main/resources</directory>
+								<includes>
+									<include>*.sol</include>
+								</includes>
+							</soliditySourceFiles>
+						</configuration>
+						<goals>
+							<goal>generate-sources</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>target/generated</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+		<pluginManagement>
+			<plugins>
+				<!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.web3j</groupId>
+										<artifactId>web3j-maven-plugin</artifactId>
+										<versionRange>[0.3.5,)</versionRange>
+										<goals>
+											<goal>generate-sources</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<execute></execute>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+	<repositories>
+		<repository>
+			<id>Spring plugins repo</id>
+			<url>http://repo.spring.io/plugins-release/</url>
+		</repository>
+	</repositories>
+
+</project>
