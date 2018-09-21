@@ -34,15 +34,21 @@ contract SCUServiceOffer is Ownable {
 
 }
 
-contract SCUServiceOfferCreator {
-	
-	SCUServiceOffer public serviceOffer;
-	
+contract SCUMarketplace is Ownable {
+
+	address[] activeOfferArray;
+
     event SCUServiceOfferCreated(SCUServiceOffer serviceOffer);
 
-	function createServiceOffer(string _ID, string _serviceProvider, uint256 _pricePerMonth, string _description, string _location) public {
-		serviceOffer = new SCUServiceOffer(_ID, _serviceProvider, _pricePerMonth, _description, _location);
-		emit SCUServiceOfferCreated(serviceOffer);	 
+	constructor() public {
+		owner=msg.sender;
+	}
+
+	function createServiceOffer(string _ID, string _serviceProvider, uint256 _pricePerMonth, string _description, string _location) public returns (address) {
+		SCUServiceOffer serviceOffer = new SCUServiceOffer(_ID, _serviceProvider, _pricePerMonth, _description, _location);
+		activeOfferArray.push(address(serviceOffer));
+		emit SCUServiceOfferCreated(serviceOffer);
+		return address(serviceOffer);	 
 	}
 
 }

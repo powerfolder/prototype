@@ -28,9 +28,9 @@ contract SCUServiceContract is Ownable {
 	address public serviceProviderAddress;
 	uint256 public pricePerMonth;
 
-	constructor(string _ID, SCUServiceOffer _offer, string _contractIdentity, uint256 _beginTime) public {
+	constructor(string _ID, SCUServiceOffer _offer, string _contractIdentity) public {
 		clientAddress=msg.sender;
-		beginTime=_beginTime;
+		beginTime=now;
 		active=true;
 		contractIdentity=_contractIdentity;
 		ID=_ID;
@@ -49,8 +49,8 @@ contract SCUServiceContractCreator {
 
 	event SCUServiceContractCreated(SCUServiceContract serviceContract);
     
-	function createServiceContract(string _ID, SCUServiceOffer _offer, string _contractIdentity, uint256 _beginTime) public {
-		serviceContract = new SCUServiceContract(_ID, _offer, _contractIdentity, _beginTime);
+	function createServiceContract(string _ID, SCUServiceOffer _offer, string _contractIdentity) public {
+		serviceContract = new SCUServiceContract(_ID, _offer, _contractIdentity);
 		emit SCUServiceContractCreated(serviceContract); 
 	}
 
