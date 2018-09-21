@@ -51,6 +51,7 @@ public class ServiceOfferService {
 				argServiceOffer.getDescription(), argServiceOffer.getLocation()).send();
 		List<SCUServiceOfferCreatedEventResponse> responseList = myMarketplace
 				.getSCUServiceOfferCreatedEvents(transactionReceipt);
+		// TODO: Secure this code.
 		// Assume that there is an offer:
 		return responseList.get(0).serviceOffer;
 	}
