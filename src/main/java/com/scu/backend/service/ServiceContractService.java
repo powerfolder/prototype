@@ -42,7 +42,7 @@ public class ServiceContractService {
 		myServiceContract.setServiceProviderName(readFromChain(myServiceContractContract.serviceProviderName()));
 		return myServiceContract;
 	}
-
+ 
 	public String createServiceContract(String argId, ServiceContract contract, String contractIdentity)
 			throws Exception {
 		String offerAddress = contract.getContractAddress();

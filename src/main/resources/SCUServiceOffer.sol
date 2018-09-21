@@ -36,12 +36,16 @@ contract SCUServiceOffer is Ownable {
 
 contract SCUMarketplace is Ownable {
 
-	address[] activeOfferArray;
+	address[] public activeOfferArray;
 
     event SCUServiceOfferCreated(SCUServiceOffer serviceOffer, address serviceCreator);
 
 	constructor() public {
 		owner=msg.sender;
+	}
+	
+	function getNrOfActiveOffers() public constant returns(uint count) {
+	    return activeOfferArray.length;
 	}
 
 	function createServiceOffer(string _ID, string _serviceProvider, uint256 _pricePerMonth, string _description, string _location) public {
