@@ -66,8 +66,6 @@ public class CompleteTest {
 		assertEquals(TEST_SERVICE_PROVIDER, myContract.getServiceProviderName());
 		assertEquals(true, myContract.isActive());
 		assertNotNull(myContract.getBeginTime());
-		assertEquals(TEST_SERVICE_PROVIDER_ADDRESS, myContract.getServiceProviderAddress());
-		assertEquals(TEST_CLIENT_ADDRESS, myContract.getClientAddress());
 		assertEquals(myServiceContractAddress, myContract.getContractAddress());
 		System.out.println("Test ran successful for contract with address: " + myServiceContractAddress
 				+ " and offer with address " + myServiceOfferAddress);
@@ -78,7 +76,6 @@ public class CompleteTest {
 		assertEquals(TEST_DESCRIPTION, argServiceOffer.getDescription());
 		assertEquals(TEST_PRICE_PER_MONTH, argServiceOffer.getPricePerMonth());
 		assertEquals(TEST_SERVICE_PROVIDER, argServiceOffer.getServiceProviderName());
-		assertEquals(TEST_SERVICE_PROVIDER_ADDRESS, argServiceOffer.getServiceProviderAddress());
 		assertEquals(argServiceOfferAddress, argServiceOffer.getServiceOfferAddress());
 		assertEquals(TEST_LOCATION, argServiceOffer.getLocation());
 	}

@@ -38,7 +38,7 @@ public class ServiceContractService {
 				web3jConnection.getWeb3j(), web3jConnection.getCredentials(), web3jConnection.getGasPrice(),
 				web3jConnection.getGasLimit());
 		SCUServiceContractCreator myCreator = creatorDeployCall.send();
-		myCreator.createServiceContract(argServiceOffer.getServiceOfferAddress(), contractIdentity, argServiceOffer.getServiceProviderAddress(), argServiceOffer.getServiceProviderAddress(), argServiceOffer.getPricePerMonth()).send();
+		myCreator.createServiceContract(argServiceOffer.getServiceOfferAddress(), contractIdentity, argServiceOffer.getServiceProviderAddress(), argServiceOffer.getServiceProviderName(), argServiceOffer.getPricePerMonth()).send();
 		return readFromChain(myCreator.serviceContract());
 	}
 
