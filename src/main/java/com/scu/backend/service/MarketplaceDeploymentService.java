@@ -13,9 +13,9 @@ public class MarketplaceDeploymentService {
 	}
  
 	public String deployMarketplace() throws Exception {
-		RemoteCall<SCUMarketplace> marketPlaceDeploymentCall = SCUMarketplace.deploy(web3jConnection.getWeb3j(),
+		RemoteCall<SCUMarketplace> myMarketplaceDeploymentCall = SCUMarketplace.deploy(web3jConnection.getWeb3j(),
 				web3jConnection.getCredentials(), web3jConnection.getGasPrice(), web3jConnection.getGasLimit());
-		SCUMarketplace myMarketplace = marketPlaceDeploymentCall.send();
+		SCUMarketplace myMarketplace = myMarketplaceDeploymentCall.send();
 		return myMarketplace.getContractAddress();
 	}
 
