@@ -41,13 +41,11 @@
 			<version>3.5.0</version>
 		</dependency>
 		<!-- A ethereum VM for testing -->
-		<!-- 
 		<dependency>
 			<groupId>org.ethereum</groupId>
 			<artifactId>ethereumj-core</artifactId>
 			<version>1.8.2-RELEASE</version>
 		</dependency>
-		 -->
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
@@ -151,6 +149,11 @@
 			<id>Spring plugins repo</id>
 			<url>http://repo.spring.io/plugins-release/</url>
 		</repository>
+		<repository>
+			<id>bintray</id>
+			<url>https://dl.bintray.com/ethereum/maven/</url>
+		</repository>
+
 	</repositories>
 
 </project>
