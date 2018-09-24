@@ -4,20 +4,11 @@ import java.math.BigInteger;
 
 public class ServiceOffer {
 
-	private String contractAddress;
 	private String id;
 	private String serviceProvider;
 	private BigInteger pricePerMonth;
 	private String description;
 	private String location;
-
-	public String getContractAddress() {
-		return contractAddress;
-	}
-
-	public void setContractAddress(String contractAddress) {
-		this.contractAddress = contractAddress;
-	}
 
 	public String getId() {
 		return id;

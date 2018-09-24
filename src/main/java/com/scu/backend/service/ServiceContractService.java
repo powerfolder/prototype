@@ -33,14 +33,13 @@ public class ServiceContractService {
 		return myServiceContract;
 	}
 
-	public String createServiceContract(String argId, ServiceContract contract, String contractIdentity)
+	public String createServiceContract(String argId, String argOfferAddress, String contractIdentity)
 			throws Exception {
-		String offerAddress = contract.getContractAddress();
 		RemoteCall<SCUServiceContractCreator> creatorDeployCall = SCUServiceContractCreator.deploy(
 				web3jConnection.getWeb3j(), web3jConnection.getCredentials(), web3jConnection.getGasPrice(),
 				web3jConnection.getGasLimit());
 		SCUServiceContractCreator myCreator = creatorDeployCall.send();
-		myCreator.createServiceContract(argId, offerAddress, contractIdentity).send();
+		myCreator.createServiceContract(argId, argOfferAddress, contractIdentity).send();
 		return readFromChain(myCreator.serviceContract());
 	}
 

@@ -27,7 +27,6 @@ public class ServiceOfferService {
 		SCUServiceOffer myServiceOfferContract = SCUServiceOffer.load(argContractAddress, web3jConnection.getWeb3j(),
 				web3jConnection.getCredentials(), web3jConnection.getGasPrice(), web3jConnection.getGasLimit());
 		ServiceOffer myServiceOffer = new ServiceOffer();
-		myServiceOffer.setContractAddress(myServiceOfferContract.getContractAddress());
 		myServiceOffer.setId(readFromChain(myServiceOfferContract.ID()));
 		myServiceOffer.setDescription(readFromChain(myServiceOfferContract.description()));
 		myServiceOffer.setLocation(readFromChain(myServiceOfferContract.location()));
