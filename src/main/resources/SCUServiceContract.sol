@@ -17,28 +17,26 @@ import "./SCUServiceOffer.sol";
 
 contract SCUServiceContract is Ownable {
 	
-	string public ID;
 	address public clientAddress;
 	string public contractIdentity;
 	uint256 public beginTime;
 	bool public active;
 
-	string public offerID;
-	string public serviceProviderName;
+	address public serviceOffer;
 	address public serviceProviderAddress;
 	uint256 public pricePerMonth;
+	string public serviceProviderName;
 
-	constructor(string _ID, SCUServiceOffer _offer, string _contractIdentity) public {
+	constructor(address _serviceOffer, string _contractIdentity, address _serviceProviderAddress, string _serviceProviderName, uint256 _pricePerMonth) public {
 		clientAddress=msg.sender;
 		beginTime=now;
 		active=true;
 		contractIdentity=_contractIdentity;
-		ID=_ID;
 		// Attributes copied from offer:
-		offerID=_offer.ID();
-		serviceProviderAddress=_offer.owner();
-		serviceProviderName=_offer.serviceProvider();
-		pricePerMonth=_offer.pricePerMonth();
+		serviceOffer = _serviceOffer;
+		serviceProviderAddress=_serviceProviderAddress;
+		serviceProviderName=_serviceProviderName;
+		pricePerMonth=_pricePerMonth;
 	}
 
 }
@@ -49,8 +47,8 @@ contract SCUServiceContractCreator {
 
 	event SCUServiceContractCreated(SCUServiceContract serviceContract);
     
-	function createServiceContract(string _ID, SCUServiceOffer _offer, string _contractIdentity) public {
-		serviceContract = new SCUServiceContract(_ID, _offer, _contractIdentity);
+	function createServiceContract(address _serviceOffer, string _contractIdentity, address _serviceProviderAddress, string _serviceProviderName, uint256 _pricePerMonth) public {
+		serviceContract = new SCUServiceContract(_serviceOffer, _contractIdentity, _serviceProviderAddress, _serviceProviderName, _pricePerMonth);
 		emit SCUServiceContractCreated(serviceContract); 
 	}
 

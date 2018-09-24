@@ -9,6 +9,7 @@ import java.util.List;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 
 import com.scu.backend.service.model.ServiceOffer;
+import com.scu.backend.service.model.ServiceOfferRequest;
 import com.scu.contract.generated.SCUMarketplace;
 import com.scu.contract.generated.SCUMarketplace.SCUServiceOfferCreatedEventResponse;
 import com.scu.contract.generated.SCUServiceOffer;
@@ -27,20 +28,21 @@ public class ServiceOfferService {
 		SCUServiceOffer myServiceOfferContract = SCUServiceOffer.load(argContractAddress, web3jConnection.getWeb3j(),
 				web3jConnection.getCredentials(), web3jConnection.getGasPrice(), web3jConnection.getGasLimit());
 		ServiceOffer myServiceOffer = new ServiceOffer();
-		myServiceOffer.setId(readFromChain(myServiceOfferContract.ID()));
 		myServiceOffer.setDescription(readFromChain(myServiceOfferContract.description()));
 		myServiceOffer.setLocation(readFromChain(myServiceOfferContract.location()));
 		myServiceOffer.setPricePerMonth(readFromChain(myServiceOfferContract.pricePerMonth()));
-		myServiceOffer.setServiceProvider(readFromChain(myServiceOfferContract.serviceProvider()));
+		myServiceOffer.setServiceProviderName(readFromChain(myServiceOfferContract.serviceProvider()));
+		myServiceOffer.setServiceProviderAddress(readFromChain(myServiceOfferContract.owner()));
+		myServiceOffer.setServiceOfferAddress(argContractAddress);
 		return myServiceOffer;
 	}
 
-	public String createServiceOffer(ServiceOffer argServiceOffer) throws Exception {
+	public String createServiceOffer(ServiceOfferRequest argServiceOffer) throws Exception {
 		SCUMarketplace myMarketplace = SCUMarketplace.load(marketplaceContractAddress, web3jConnection.getWeb3j(),
 				web3jConnection.getCredentials(), web3jConnection.getGasPrice(), web3jConnection.getGasLimit());
-		TransactionReceipt transactionReceipt = myMarketplace.createServiceOffer(argServiceOffer.getId(),
-				argServiceOffer.getServiceProvider(), argServiceOffer.getPricePerMonth(),
-				argServiceOffer.getDescription(), argServiceOffer.getLocation()).send();
+		TransactionReceipt transactionReceipt = myMarketplace.createServiceOffer(argServiceOffer.getServiceProviderName(),
+				argServiceOffer.getPricePerMonth(), argServiceOffer.getDescription(), argServiceOffer.getLocation())
+				.send();
 		List<SCUServiceOfferCreatedEventResponse> responseList = myMarketplace
 				.getSCUServiceOfferCreatedEvents(transactionReceipt);
 		// TODO: Secure this code.
@@ -52,7 +54,6 @@ public class ServiceOfferService {
 		SCUMarketplace myMarketplace = SCUMarketplace.load(marketplaceContractAddress, web3jConnection.getWeb3j(),
 				web3jConnection.getCredentials(), web3jConnection.getGasPrice(), web3jConnection.getGasLimit());
 		BigInteger myNrOfActiveOffers = readFromChain(myMarketplace.getNrOfActiveOffers());
-		System.out.println("Nr of active offers: " + myNrOfActiveOffers);
 		List<ServiceOffer> myServiceOfferList = new ArrayList<>(myNrOfActiveOffers.intValue());
 		for (long myCounter = 0; myCounter < myNrOfActiveOffers.longValue(); myCounter++) {
 			BigInteger myOfferIndex = BigInteger.valueOf(myCounter);

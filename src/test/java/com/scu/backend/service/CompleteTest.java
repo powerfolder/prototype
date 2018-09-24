@@ -15,13 +15,12 @@ import org.web3j.protocol.http.HttpService;
 
 import com.scu.backend.service.model.ServiceContract;
 import com.scu.backend.service.model.ServiceOffer;
+import com.scu.backend.service.model.ServiceOfferRequest;
 
 public class CompleteTest {
 
 	private static final BigInteger TEST_PRICE_PER_MONTH = BigInteger.valueOf(1l);
 	private static final String TEST_DESCRIPTION = "Test service offer";
-	private static final String TEST_OFFER_ID = "ABCDEFG";
-	private static final String TEST_CONTRACT_ID = "GFEDCBA";
 	private static final String TEST_LOCATION = "Germany/Düsseldorf";
 	private static final String TEST_SERVICE_PROVIDER = "Powerfolder";
 	private static final String TEST_CONTRACT_IDENTITY = "IDFHGERGERER";
@@ -40,29 +39,29 @@ public class CompleteTest {
 		Web3jConnection web3jConnection = new Web3jConnection(web3j, credentials, GAS_PRICE, GAS_LIMIT);
 		MarketplaceDeploymentService marketplaceDeployment = new MarketplaceDeploymentService(web3jConnection);
 		String marketPlaceAddress = marketplaceDeployment.deployMarketplace();
+		System.out.println("Deployed market place w/ address: " + marketPlaceAddress);
 		ServiceOfferService myServiceOfferService = new ServiceOfferService(web3jConnection, marketPlaceAddress);
-		ServiceOffer myServiceOffer = new ServiceOffer();
-		myServiceOffer.setId(TEST_OFFER_ID);
-		myServiceOffer.setDescription(TEST_DESCRIPTION);
-		myServiceOffer.setPricePerMonth(TEST_PRICE_PER_MONTH);
-		myServiceOffer.setServiceProvider(TEST_SERVICE_PROVIDER);
-		myServiceOffer.setLocation(TEST_LOCATION);
-		String myServiceOfferAddress = myServiceOfferService.createServiceOffer(myServiceOffer);
-		ServiceOffer myLoadedServiceOffer = myServiceOfferService.loadServiceOffer(myServiceOfferAddress);
-		checkServiceOffer(myLoadedServiceOffer);
+		ServiceOfferRequest myServiceOfferRequest = new ServiceOfferRequest();
+		myServiceOfferRequest.setDescription(TEST_DESCRIPTION);
+		myServiceOfferRequest.setPricePerMonth(TEST_PRICE_PER_MONTH);
+		myServiceOfferRequest.setServiceProviderName(TEST_SERVICE_PROVIDER);
+		myServiceOfferRequest.setLocation(TEST_LOCATION);
+		String myServiceOfferAddress = myServiceOfferService.createServiceOffer(myServiceOfferRequest);
+		System.out.println("Created service offer with address: " + myServiceOfferAddress);
+		ServiceOffer myServiceOffer = myServiceOfferService.loadServiceOffer(myServiceOfferAddress);
+		checkServiceOffer(myServiceOffer, myServiceOfferAddress);
 		List<ServiceOffer> myServiceOfferList = myServiceOfferService.loadServiceOfferList();
 		assertNotNull(myServiceOfferList);
 		assertEquals(1, myServiceOfferList.size());
-		checkServiceOffer(myServiceOfferList.get(0));
+		checkServiceOffer(myServiceOfferList.get(0), myServiceOfferAddress);
 		ServiceContractService myServiceContractService = new ServiceContractService(web3jConnection);
-		String myServiceContractAddress = myServiceContractService.createServiceContract(TEST_CONTRACT_ID,
-				myServiceOfferAddress, TEST_CONTRACT_IDENTITY);
+		String myServiceContractAddress = myServiceContractService.createServiceContract(myServiceOffer,
+				TEST_CONTRACT_IDENTITY);
 		assertNotNull(myServiceContractAddress);
+		System.out.println("Created service contract with address: " + myServiceContractAddress);
 		ServiceContract myContract = myServiceContractService.readServiceContract(myServiceContractAddress);
 		assertNotNull(myContract);
 		assertEquals(TEST_CONTRACT_IDENTITY, myContract.getContractIdentity());
-		assertEquals(TEST_OFFER_ID, myContract.getOfferId());
-		assertEquals(TEST_CONTRACT_ID, myContract.getId());
 		assertEquals(TEST_PRICE_PER_MONTH, myContract.getPricePerMonth());
 		assertEquals(TEST_SERVICE_PROVIDER, myContract.getServiceProviderName());
 		assertEquals(true, myContract.isActive());
@@ -74,13 +73,14 @@ public class CompleteTest {
 				+ " and offer with address " + myServiceOfferAddress);
 	}
 
-	private void checkServiceOffer(ServiceOffer myLoadedServiceOffer) {
-		assertNotNull(myLoadedServiceOffer);
-		assertEquals(TEST_OFFER_ID, myLoadedServiceOffer.getId());
-		assertEquals(TEST_DESCRIPTION, myLoadedServiceOffer.getDescription());
-		assertEquals(TEST_PRICE_PER_MONTH, myLoadedServiceOffer.getPricePerMonth());
-		assertEquals(TEST_SERVICE_PROVIDER, myLoadedServiceOffer.getServiceProvider());
-		assertEquals(TEST_LOCATION, myLoadedServiceOffer.getLocation());
+	private void checkServiceOffer(ServiceOffer argServiceOffer, String argServiceOfferAddress) {
+		assertNotNull(argServiceOffer);
+		assertEquals(TEST_DESCRIPTION, argServiceOffer.getDescription());
+		assertEquals(TEST_PRICE_PER_MONTH, argServiceOffer.getPricePerMonth());
+		assertEquals(TEST_SERVICE_PROVIDER, argServiceOffer.getServiceProviderName());
+		assertEquals(TEST_SERVICE_PROVIDER_ADDRESS, argServiceOffer.getServiceProviderAddress());
+		assertEquals(argServiceOfferAddress, argServiceOffer.getServiceOfferAddress());
+		assertEquals(TEST_LOCATION, argServiceOffer.getLocation());
 	}
 
 }

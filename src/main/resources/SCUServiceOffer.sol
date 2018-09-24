@@ -17,15 +17,13 @@ import "./Ownable.sol";
 
 contract SCUServiceOffer is Ownable {
 
-	string public ID;
 	string public serviceProvider;
 	uint256 public pricePerMonth;
 	string public description;
 	string public location;
 	
-	constructor(string _ID, string _serviceProvider, uint256 _pricePerMonth, string _description, string _location) public {
+	constructor(string _serviceProvider, uint256 _pricePerMonth, string _description, string _location) public {
 		owner = msg.sender;
-		ID=_ID;
 		serviceProvider=_serviceProvider;
 		pricePerMonth=_pricePerMonth;
 		description=_description;
@@ -48,8 +46,8 @@ contract SCUMarketplace is Ownable {
 	    return activeOfferArray.length;
 	}
 
-	function createServiceOffer(string _ID, string _serviceProvider, uint256 _pricePerMonth, string _description, string _location) public {
-		SCUServiceOffer serviceOffer = new SCUServiceOffer(_ID, _serviceProvider, _pricePerMonth, _description, _location);
+	function createServiceOffer(string _serviceProvider, uint256 _pricePerMonth, string _description, string _location) public {
+		SCUServiceOffer serviceOffer = new SCUServiceOffer(_serviceProvider, _pricePerMonth, _description, _location);
 		activeOfferArray.push(address(serviceOffer));
 		emit SCUServiceOfferCreated(serviceOffer, msg.sender);
 	}

@@ -5,12 +5,10 @@ import java.math.BigInteger;
 public class ServiceContract {
 
 	private String contractAddress;
-	private String id;
 	private String clientAddress;
 	private String contractIdentity;
 	private BigInteger beginTime;
 	private boolean active;
-	private String offerId;
 	private String serviceProviderName;
 	private String serviceProviderAddress;
 	private BigInteger pricePerMonth;
@@ -21,14 +19,6 @@ public class ServiceContract {
 
 	public void setContractAddress(String contractAddress) {
 		this.contractAddress = contractAddress;
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
 	}
 
 	public String getClientAddress() {
@@ -61,14 +51,6 @@ public class ServiceContract {
 
 	public void setActive(boolean active) {
 		this.active = active;
-	}
-
-	public String getOfferId() {
-		return offerId;
-	}
-
-	public void setOfferId(String offerId) {
-		this.offerId = offerId;
 	}
 
 	public String getServiceProviderName() {

@@ -2,14 +2,12 @@ package com.scu.backend.service.model;
 
 import java.math.BigInteger;
 
-public class ServiceOffer {
+public class ServiceOfferRequest {
 
 	private String serviceProviderName;
 	private BigInteger pricePerMonth;
 	private String description;
 	private String location;
-	private String serviceOfferAddress;
-	private String serviceProviderAddress;
 
 	public String getServiceProviderName() {
 		return serviceProviderName;
@@ -41,22 +39,6 @@ public class ServiceOffer {
 
 	public void setLocation(String location) {
 		this.location = location;
-	}
-
-	public String getServiceOfferAddress() {
-		return serviceOfferAddress;
-	}
-
-	public void setServiceOfferAddress(String serviceOfferAddress) {
-		this.serviceOfferAddress = serviceOfferAddress;
-	}
-
-	public String getServiceProviderAddress() {
-		return serviceProviderAddress;
-	}
-
-	public void setServiceProviderAddress(String serviceProviderAddress) {
-		this.serviceProviderAddress = serviceProviderAddress;
 	}
 
 }
