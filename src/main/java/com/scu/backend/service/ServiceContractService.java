@@ -2,10 +2,6 @@ package com.scu.backend.service;
 
 import static com.scu.backend.service.BlockchainUtil.readFromChain;
 
-import java.math.BigInteger;
-
-import org.web3j.crypto.Credentials;
-import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.RemoteCall;
 
 import com.scu.backend.service.model.ServiceContract;
@@ -14,21 +10,15 @@ import com.scu.contract.generated.SCUServiceContractCreator;
 
 public class ServiceContractService {
 
-	private Web3j web3j;
-	private Credentials credentials;
-	private BigInteger gasPrice;
-	private BigInteger gasLimit;
+	private Web3jConnection web3jConnection;
 
-	public ServiceContractService(Web3j web3j, Credentials credentials, BigInteger gasPrice, BigInteger gasLimit) {
-		this.web3j = web3j;
-		this.credentials = credentials;
-		this.gasPrice = gasPrice;
-		this.gasLimit = gasLimit;
+	public ServiceContractService(Web3jConnection web3jConnection) {
+		this.web3jConnection = web3jConnection;
 	}
 
 	public ServiceContract readServiceContract(String argAddress) throws Exception {
-		SCUServiceContract myServiceContractContract = SCUServiceContract.load(argAddress, web3j, credentials, gasPrice,
-				gasLimit);
+		SCUServiceContract myServiceContractContract = SCUServiceContract.load(argAddress, web3jConnection.getWeb3j(),
+				web3jConnection.getCredentials(), web3jConnection.getGasPrice(), web3jConnection.getGasLimit());
 		ServiceContract myServiceContract = new ServiceContract();
 		myServiceContract.setContractAddress(myServiceContractContract.getContractAddress());
 		myServiceContract.setId(readFromChain(myServiceContractContract.ID()));
@@ -42,12 +32,13 @@ public class ServiceContractService {
 		myServiceContract.setServiceProviderName(readFromChain(myServiceContractContract.serviceProviderName()));
 		return myServiceContract;
 	}
- 
+
 	public String createServiceContract(String argId, ServiceContract contract, String contractIdentity)
 			throws Exception {
 		String offerAddress = contract.getContractAddress();
-		RemoteCall<SCUServiceContractCreator> creatorDeployCall = SCUServiceContractCreator.deploy(web3j, credentials,
-				gasPrice, gasLimit);
+		RemoteCall<SCUServiceContractCreator> creatorDeployCall = SCUServiceContractCreator.deploy(
+				web3jConnection.getWeb3j(), web3jConnection.getCredentials(), web3jConnection.getGasPrice(),
+				web3jConnection.getGasLimit());
 		SCUServiceContractCreator myCreator = creatorDeployCall.send();
 		myCreator.createServiceContract(argId, offerAddress, contractIdentity).send();
 		return readFromChain(myCreator.serviceContract());
