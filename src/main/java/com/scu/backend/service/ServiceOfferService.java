@@ -52,13 +52,14 @@ public class ServiceOfferService {
 		SCUMarketplace myMarketplace = SCUMarketplace.load(marketplaceContractAddress, web3jConnection.getWeb3j(),
 				web3jConnection.getCredentials(), web3jConnection.getGasPrice(), web3jConnection.getGasLimit());
 		BigInteger myNrOfActiveOffers = readFromChain(myMarketplace.getNrOfActiveOffers());
+		System.out.println("Nr of active offers: " + myNrOfActiveOffers);
 		List<ServiceOffer> myServiceOfferList = new ArrayList<>(myNrOfActiveOffers.intValue());
 		for (long myCounter = 0; myCounter < myNrOfActiveOffers.longValue(); myCounter++) {
 			BigInteger myOfferIndex = BigInteger.valueOf(myCounter);
 			String myOfferAddress = readFromChain(myMarketplace.activeOfferArray(myOfferIndex));
 			myServiceOfferList.add(loadServiceOffer(myOfferAddress));
 		}
-		return new ArrayList<>();
+		return myServiceOfferList;
 	}
 
 }
