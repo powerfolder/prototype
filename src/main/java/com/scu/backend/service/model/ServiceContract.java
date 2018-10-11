@@ -6,7 +6,6 @@ public class ServiceContract {
 
 	private String contractAddress;
 	private String clientAddress;
-	private String contractIdentity;
 	private BigInteger beginTime;
 	private boolean active;
 	private String serviceProviderName;
@@ -27,14 +26,6 @@ public class ServiceContract {
 
 	public void setClientAddress(String clientAddress) {
 		this.clientAddress = clientAddress;
-	}
-
-	public String getContractIdentity() {
-		return contractIdentity;
-	}
-
-	public void setContractIdentity(String contractIdentity) {
-		this.contractIdentity = contractIdentity;
 	}
 
 	public BigInteger getBeginTime() {
