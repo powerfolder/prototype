@@ -8,9 +8,7 @@ public class ServiceContract {
 	private String clientAddress;
 	private BigInteger beginTime;
 	private boolean active;
-	private String serviceProviderName;
-	private String serviceProviderAddress;
-	private BigInteger pricePerMonth;
+	private ServiceOffer serviceOffer;
 
 	public String getContractAddress() {
 		return contractAddress;
@@ -44,28 +42,12 @@ public class ServiceContract {
 		this.active = active;
 	}
 
-	public String getServiceProviderName() {
-		return serviceProviderName;
+	public ServiceOffer getServiceOffer() {
+		return serviceOffer;
 	}
 
-	public void setServiceProviderName(String serviceProviderName) {
-		this.serviceProviderName = serviceProviderName;
-	}
-
-	public String getServiceProviderAddress() {
-		return serviceProviderAddress;
-	}
-
-	public void setServiceProviderAddress(String serviceProviderAddress) {
-		this.serviceProviderAddress = serviceProviderAddress;
-	}
-
-	public BigInteger getPricePerMonth() {
-		return pricePerMonth;
-	}
-
-	public void setPricePerMonth(BigInteger pricePerMonth) {
-		this.pricePerMonth = pricePerMonth;
+	public void setServiceOffer(ServiceOffer serviceOffer) {
+		this.serviceOffer = serviceOffer;
 	}
 
 }

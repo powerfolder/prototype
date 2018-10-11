@@ -39,9 +39,6 @@ contract SCUServiceContract is Ownable {
 	bool public active;
 
 	address public serviceOffer;
-	address public serviceProviderAddress;
-	uint256 public pricePerMonth;
-	string public serviceProviderName;
 
 	constructor(SCUServiceOffer _serviceOffer) public {
 		clientAddress=msg.sender;
@@ -49,12 +46,10 @@ contract SCUServiceContract is Ownable {
 		active=true;
 		// Attributes copied from offer:
 		serviceOffer = _serviceOffer;
-		serviceProviderAddress=_serviceOffer.owner();
-		serviceProviderName=_serviceOffer.serviceProvider();
-		pricePerMonth=_serviceOffer.pricePerMonth();
 	}
 
 }
+
 contract SCUMarketplace is Ownable {
 
 	address[] public activeOfferArray;
@@ -76,8 +71,16 @@ contract SCUMarketplace is Ownable {
 		emit SCUServiceOfferCreated(serviceOffer, msg.sender);
 	}
     
+}
+
+contract SCUServiceContractCreator {
+
+	SCUServiceContract public serviceContract;
+	
+	event SCUServiceContractCreated(SCUServiceContract serviceContract);
+
 	function createServiceContract(SCUServiceOffer _serviceOffer) public {
-		SCUServiceContract serviceContract = new SCUServiceContract(_serviceOffer);
+		serviceContract = new SCUServiceContract(_serviceOffer);
 		emit SCUServiceContractCreated(serviceContract); 
 	}
 

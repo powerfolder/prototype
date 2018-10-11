@@ -49,7 +49,7 @@ public class ServiceOfferService {
 		// Assume that there is an offer:
 		return responseList.get(0).serviceOffer;
 	}
-
+ 
 	public List<ServiceOffer> loadServiceOfferList() throws Exception {
 		SCUMarketplace myMarketplace = SCUMarketplace.load(marketplaceContractAddress, web3jConnection.getWeb3j(),
 				web3jConnection.getCredentials(), web3jConnection.getGasPrice(), web3jConnection.getGasLimit());

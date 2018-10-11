@@ -23,7 +23,6 @@ public class CompleteTest {
 	private static final String TEST_DESCRIPTION = "Test service offer";
 	private static final String TEST_LOCATION = "Germany/Düsseldorf";
 	private static final String TEST_SERVICE_PROVIDER = "Powerfolder";
-	private static final String TEST_CONTRACT_IDENTITY = "IDFHGERGERER";
 	private static final String TEST_CLIENT_ADDRESS = "0xA8554C3Df0275E24bBEFf9D1A07F3fededC26989";
 	private static final String TEST_SERVICE_PROVIDER_ADDRESS = "0xA8554C3Df0275E24bBEFf9D1A07F3fededC26989";
 	private static final BigInteger GAS_PRICE = BigInteger.valueOf(1000000001l);
@@ -54,16 +53,14 @@ public class CompleteTest {
 		assertNotNull(myServiceOfferList);
 		assertEquals(1, myServiceOfferList.size());
 		checkServiceOffer(myServiceOfferList.get(0), myServiceOfferAddress);
-		ServiceContractService myServiceContractService = new ServiceContractService(web3jConnection);
-		String myServiceContractAddress = myServiceContractService.createServiceContract(myServiceOffer,
-				TEST_CONTRACT_IDENTITY);
+		ServiceContractService myServiceContractService = new ServiceContractService(myServiceOfferService, web3jConnection);
+		String myServiceContractAddress = myServiceContractService.createServiceContract(myServiceOffer);
 		assertNotNull(myServiceContractAddress);
 		System.out.println("Created service contract with address: " + myServiceContractAddress);
 		ServiceContract myContract = myServiceContractService.readServiceContract(myServiceContractAddress);
 		assertNotNull(myContract);
-		assertEquals(TEST_CONTRACT_IDENTITY, myContract.getContractIdentity());
-		assertEquals(TEST_PRICE_PER_MONTH, myContract.getPricePerMonth());
-		assertEquals(TEST_SERVICE_PROVIDER, myContract.getServiceProviderName());
+		assertEquals(TEST_PRICE_PER_MONTH, myContract.getServiceOffer().getPricePerMonth());
+		assertEquals(TEST_SERVICE_PROVIDER, myContract.getServiceOffer().getServiceProviderName());
 		assertEquals(true, myContract.isActive());
 		assertNotNull(myContract.getBeginTime());
 		assertEquals(myServiceContractAddress, myContract.getContractAddress());
